@@ -1,0 +1,14 @@
+post:
+  tags:
+    - Dispatches
+  description: Create a bulk or single dispatch
+  parameters:
+    - name: chatbotId
+      in: path
+      required: true
+      description: the chatbot identifier, as chatbotId 
+      schema:
+        type: string
+  responses:
+    200:
+      description: Dispatch information model

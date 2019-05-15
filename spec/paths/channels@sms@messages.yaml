@@ -1,0 +1,7 @@
+post:
+  tags:
+    - SMS
+  description: Send a SMS message
+  responses:
+    200:
+      description: SMS message model

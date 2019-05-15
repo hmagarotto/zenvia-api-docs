@@ -1,0 +1,14 @@
+get:
+  tags:
+    - Chatbots
+  description: Get specific chatbot
+  parameters:
+    - name: chatbotId
+      in: path
+      required: true
+      description: the chatbot identifier, as chatbotId 
+      schema:
+        type: string
+  responses:
+    200:
+      description: Chatbot model

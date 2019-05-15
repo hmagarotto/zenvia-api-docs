@@ -1,0 +1,46 @@
+openapi: 3.0.0
+info:
+  version: 1.0.0
+  title: Zenvia API
+  termsOfService: 'https://zenvia.com/'
+  contact:
+    email: contact@zenvia.com
+    url: 'http://zenvia.com/contact'
+  license:
+    name: Apache 2.0
+    url: 'http://www.apache.org/licenses/LICENSE-2.0.html'
+  x-logo:
+    url: 'https://apis.guru/openapi-template/logo.png'
+  description: >
+    This is an **example** API to demonstrate features of OpenAPI specification
+
+    # Introduction
+
+    This specification is intended to to be a good starting point for describing
+    Zenvia API in 
+
+    [OpenAPI/Swagger
+    format](https://github.com/OAI/OpenAPI-Specification/blob/master/versions/2.0.md).
+
+x-tagGroups:
+  - name: Chatbots
+    tags:
+      - Chatbots
+      - Dispatches
+  - name: Credentials
+    tags:
+      - Credentials
+  - name: Messaging
+    tags:
+      - SMS
+      - WhatsApp
+      - Facebook
+  - name: Reports
+    tags:
+      - Consumption
+      - Engagement
+servers:
+  - url: 'http://api.zenvia.com/api/v1'
+  - url: 'https://api.zenvia.com/api/v1'
+security:
+  - jwt: []

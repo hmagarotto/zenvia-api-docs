@@ -1,0 +1,7 @@
+post:
+  tags:
+    - Facebook
+  description: Send a Facebook message
+  responses:
+    200:
+      description: Facebook message model
