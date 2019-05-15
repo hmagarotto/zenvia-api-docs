@@ -109,8 +109,6 @@ paths:
         '200':
           description: Dispatch information model
 components:
-  schemas: {}
-  headers: {}
   securitySchemes:
     jwt:
       type: http
