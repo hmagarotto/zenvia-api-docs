@@ -3,8 +3,12 @@ get:
     - Chatbots
   description: List all chatbots
   responses:
+    200:
+      description: Chatbot model
 post:
   tags:
     - Chatbots
   description: Create a new chatbot
   responses:
+    200:
+      description: Chatbot model

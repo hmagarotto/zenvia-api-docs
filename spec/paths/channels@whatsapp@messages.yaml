@@ -2,3 +2,6 @@ post:
   tags:
     - WhatsApp
   description: Send a WhatsApp message
+  responses:
+    200:
+      description: Whatsapp message model
