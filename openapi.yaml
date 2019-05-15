@@ -15,7 +15,7 @@ info:
     This is an **example** API to demonstrate features of OpenAPI specification
     # Introduction
     This specification is intended to to be a good starting point for describing Zenvia API in 
-    [OpenAPI/Swagger format](https://github.com/OAI/OpenAPI-Specification/blob/master/versions/2.0.md).
+    [OpenAPI format](https://github.com/OAI/OpenAPI-Specification/blob/master/versions/3.0.2.md).
 x-tagGroups:
   - name: Chatbots
     tags:
