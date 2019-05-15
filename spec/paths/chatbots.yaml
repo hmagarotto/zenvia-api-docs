@@ -1,0 +1,10 @@
+get:
+  tags:
+    - Chatbots
+  description: List all chatbots
+  responses:
+post:
+  tags:
+    - Chatbots
+  description: Create a new chatbot
+  responses:

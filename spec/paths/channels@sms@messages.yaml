@@ -1,0 +1,4 @@
+post:
+  tags:
+    - SMS
+  description: Send a SMS message

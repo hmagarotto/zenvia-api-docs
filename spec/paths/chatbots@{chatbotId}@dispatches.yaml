@@ -1,0 +1,4 @@
+post:
+  tags:
+    - Dispatches
+  description: Create a bulk or single dispatch
