@@ -65,7 +65,11 @@ paths:
         content:
           application/json:
             schema:
-              $ref: '#/components/schemas/MessageBase'
+              $ref: '#/components/schemas/Message'
+            example:
+              from: 991d2006-7770-11e9-8018-ef0cd0bfcf86
+              to: 5511999999999
+              contents: []
       responses:
         '200':
           description: Whatsapp message model
@@ -128,31 +132,74 @@ paths:
           description: Dispatch information model
 components:
   schemas:
-    Message:
-      type: object
-      allOf:
-        - $ref: '#/components/schemas/MessageBase'
-        - required:
-            - messageId
-          properties:
-            messageId:
-              readOnly: true
-              title: Message ID
-              type: string
-              description: |
-                An ID for this message. This can be used for futher message consulting or callback notifications.
-      example:
-        messageId: fca3f11c-7771-11e9-8897-efb56267dc4b
-        from: 991d2006-7770-11e9-8018-ef0cd0bfcf86
-        to: 5511999999999
-        contents: []
-    MessageBase:
+    Content-QuickReply:
       type: object
       required:
+        - required
+        - payload
+      properties:
+        type:
+          title: Content Type
+          type: string
+        payload:
+          title: Content Payload
+          type: object
+          properties:
+            json:
+              type: object
+              properties:
+                text:
+                  title: Message text
+                  description: This is a text to be showed before quick-reply buttons
+                  type: string
+                buttons:
+                  type: array
+                  $ref: '#/components/schemas/Partials-Button'
+      example:
+        type: application/vnd.zenvia.v1.quickreply+json
+        payload: null
+    Content-Text:
+      type: object
+      required:
+        - required
+        - payload
+      properties:
+        type:
+          title: Content Type
+          type: string
+        payload:
+          title: Content Payload
+          type: object
+          properties:
+            text:
+              type: string
+      example:
+        type: text/plain
+        payload:
+          text: Some Text
+    Content:
+      oneOf:
+        - $ref: '#/components/schemas/Content-Text'
+        - $ref: '#/components/schemas/Content-QuickReply'
+      discriminator:
+        propertyName: type
+        mapping:
+          text/plain: '#/components/schemas/Content-Text'
+          application/vnd.zenvia.v1.quickreply+json: '#/components/schemas/Content-QuickReply'
+    Message:
+      type: object
+      required:
+        - messageId
         - from
         - to
         - contents
       properties:
+        id:
+          readOnly: true
+          title: Message ID
+          type: string
+          description: |
+            An ID for this message. This can be used for future message consulting or callback notifications.
         from:
           title: Sender ID
           type: string
@@ -169,11 +216,26 @@ components:
           description: |
             A list of content to be sent
           items:
-            type: object
+            $ref: '#/components/schemas/Content'
       example:
+        messageId: fca3f11c-7771-11e9-8897-efb56267dc4b
         from: 991d2006-7770-11e9-8018-ef0cd0bfcf86
         to: 5511999999999
-        contents: null
+        contents: []
+    Partials-Button:
+      type: object
+      properties:
+        type:
+          title: Button type
+          type: string
+          enum:
+            - postback
+        text:
+          title: Button text
+          type: string
+        payload:
+          title: Postback payload
+          type: string
   securitySchemes:
     jwt:
       type: http
