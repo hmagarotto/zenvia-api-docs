@@ -2,6 +2,12 @@ post:
   tags:
     - WhatsApp
   description: Send a WhatsApp message
+  requestBody:
+    required: true
+    content:
+      application/json:
+        schema:
+          $ref: "#/components/schemas/MessageBase"
   responses:
     200:
       description: Whatsapp message model

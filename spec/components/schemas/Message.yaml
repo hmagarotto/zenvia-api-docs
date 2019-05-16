@@ -1,0 +1,17 @@
+type: object
+allOf:
+  - $ref: '#/components/schemas/MessageBase'
+  - properties:
+      messageId:
+        readOnly: true
+        title: Message ID
+        type: string
+        required: true
+        description: >
+          An ID for this message.
+          This can be used for futher message consulting or callback notifications.
+example:
+  messageId: fca3f11c-7771-11e9-8897-efb56267dc4b
+  from: 991d2006-7770-11e9-8018-ef0cd0bfcf86
+  to: +5511999999999
+  contents: []
