@@ -10,7 +10,7 @@ info:
     name: Apache 2.0
     url: 'http://www.apache.org/licenses/LICENSE-2.0.html'
   x-logo:
-    url: /zenvia-logo-developers.png
+    url: 'https://hmagarotto.github.io/zenvia-api-docs/zenvia-logo-developers.png'
   description: |
     This is an **example** API to demonstrate features of OpenAPI specification
     # Introduction

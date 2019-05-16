@@ -13,7 +13,7 @@
       "url": "http://www.apache.org/licenses/LICENSE-2.0.html"
     },
     "x-logo": {
-      "url": "/zenvia-logo-developers.png"
+      "url": "https://hmagarotto.github.io/zenvia-api-docs/zenvia-logo-developers.png"
     },
     "description": "This is an **example** API to demonstrate features of OpenAPI specification\n# Introduction\nThis specification is intended to to be a good starting point for describing Zenvia API in \n[OpenAPI format](https://github.com/OAI/OpenAPI-Specification/blob/master/versions/3.0.2.md).\n"
   },
