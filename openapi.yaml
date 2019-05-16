@@ -10,7 +10,7 @@ info:
     name: Apache 2.0
     url: 'http://www.apache.org/licenses/LICENSE-2.0.html'
   x-logo:
-    url: 'https://apis.guru/openapi-template/logo.png'
+    url: /zenvia-logo-developers.png
   description: |
     This is an **example** API to demonstrate features of OpenAPI specification
     # Introduction
@@ -60,9 +60,27 @@ paths:
       tags:
         - WhatsApp
       description: Send a WhatsApp message
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/MessageBase'
       responses:
         '200':
           description: Whatsapp message model
+      x-code-samples:
+        - lang: curl
+          source: |
+            curl \
+            -H"Content-Type: application/json" \
+            -H"Authorization: Bearer ${JWT}" \
+            "https://api.zenvia.com/api/v1/channels/whatsapp/messages" \
+            -d'{
+              "from": "991d2006-7770-11e9-8018-ef0cd0bfcf86",
+              "to": "+5511999999999",
+              "contents": []
+            }'
   /chatbots:
     get:
       tags:
@@ -109,6 +127,53 @@ paths:
         '200':
           description: Dispatch information model
 components:
+  schemas:
+    Message:
+      type: object
+      allOf:
+        - $ref: '#/components/schemas/MessageBase'
+        - required:
+            - messageId
+          properties:
+            messageId:
+              readOnly: true
+              title: Message ID
+              type: string
+              description: |
+                An ID for this message. This can be used for futher message consulting or callback notifications.
+      example:
+        messageId: fca3f11c-7771-11e9-8897-efb56267dc4b
+        from: 991d2006-7770-11e9-8018-ef0cd0bfcf86
+        to: 5511999999999
+        contents: []
+    MessageBase:
+      type: object
+      required:
+        - from
+        - to
+        - contents
+      properties:
+        from:
+          title: Sender ID
+          type: string
+          description: |
+            This is the identifier of sender of this message. The sender shoud be created with a credential.
+        to:
+          title: Recipient ID
+          type: string
+          description: |
+            The recipient is the identifier of a contact in this channel.
+        contents:
+          title: Message Contents
+          type: array
+          description: |
+            A list of content to be sent
+          items:
+            type: object
+      example:
+        from: 991d2006-7770-11e9-8018-ef0cd0bfcf86
+        to: 5511999999999
+        contents: null
   securitySchemes:
     jwt:
       type: http
