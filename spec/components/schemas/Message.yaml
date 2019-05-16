@@ -1,12 +1,13 @@
 type: object
 allOf:
   - $ref: '#/components/schemas/MessageBase'
-  - properties:
+  - required:
+      - messageId
+    properties:
       messageId:
         readOnly: true
         title: Message ID
         type: string
-        required: true
         description: >
           An ID for this message.
           This can be used for futher message consulting or callback notifications.
