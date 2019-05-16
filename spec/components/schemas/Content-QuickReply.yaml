@@ -1,0 +1,26 @@
+type: object
+required:
+  - required
+  - payload
+properties:
+  type:
+    title: Content Type
+    type: string
+  payload:
+    title: Content Payload
+    type: object
+    properties:
+      json:
+        type: object
+        properties:
+          text:
+            title: Message text
+            description: This is a text to be showed before quick-reply buttons
+            type: string
+          buttons:
+            type: array
+            $ref: "#/components/schemas/Partials-Button"
+
+example:
+  type: application/vnd.zenvia.v1.quickreply+json
+  payload:

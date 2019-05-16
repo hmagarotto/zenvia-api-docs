@@ -1,0 +1,18 @@
+type: object
+required:
+  - required
+  - payload
+properties:
+  type:
+    title: Content Type
+    type: string
+  payload:
+    title: Content Payload
+    type: object
+    properties:
+      text:
+        type: string
+example:
+  type: text/plain
+  payload:
+    text: 'Some Text'

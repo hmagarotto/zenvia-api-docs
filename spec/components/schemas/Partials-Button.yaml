@@ -1,0 +1,13 @@
+type: object
+properties:
+  type:
+    title: Button type
+    type: string
+    enum:
+      - postback
+  text:
+    title: Button text
+    type: string
+  payload:
+    title: Postback payload
+    type: string
