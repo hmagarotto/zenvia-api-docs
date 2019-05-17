@@ -15,7 +15,7 @@
     "x-logo": {
       "url": "https://hmagarotto.github.io/zenvia-api-docs/zenvia-logo-developers.png"
     },
-    "description": "This is an **example** API to demonstrate features of OpenAPI specification\n# Introduction\nThis specification is intended to to be a good starting point for describing Zenvia API in \n[OpenAPI format](https://github.com/OAI/OpenAPI-Specification/blob/master/versions/3.0.2.md).\n"
+    "description": "# Overview\nThis specification is intended to to be a good starting point for describing Zenvia API in [OpenAPI format](https://github.com/OAI/OpenAPI-Specification/blob/master/versions/3.0.2.md).\n# REST\nOur API follows the REST convention.\n\nWith REST we expose an hierarchical entity models called resources that you can interact with using REST operations like create a new resource item, delete one resource item, list all resource items, etc...\n\nAll our resources is represented using the JSON format and a content type of 'application/json'.\n## Resources Tree\n## HTTP Methods\n## Pagination\n## Error Handling\n## Restrictions\n### Rate Limit\n## Deviations from REST\n# Authentication\nTo use this API you need to send the JWT token in all requests.\n\nThe JWT token needs to be sent in HTTP header 'Authorization' with a 'bearer token'.\n\nExample: ```Authorization: Bearer eyJhbGciOiJSUzI1NiJ9..```\n"
   },
   "x-tagGroups": [
     {
@@ -49,9 +49,7 @@
   ],
   "servers": [
     {
-      "url": "http://api.zenvia.com/api/v1"
-    },
-    {
+      "description": "The production API server",
       "url": "https://api.zenvia.com/api/v1"
     }
   ],
@@ -98,19 +96,21 @@
           "content": {
             "application/json": {
               "schema": {
-                "$ref": "#/components/schemas/Message"
-              },
-              "example": {
-                "from": "991d2006-7770-11e9-8018-ef0cd0bfcf86",
-                "to": 5511999999999,
-                "contents": []
+                "$ref": "#/components/schemas/WhatsApp-Sent-Message"
               }
             }
           }
         },
         "responses": {
           "200": {
-            "description": "Whatsapp message model"
+            "description": "Created message",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/WhatsApp-Sent-Message"
+                }
+              }
+            }
           }
         },
         "x-code-samples": [
@@ -196,89 +196,190 @@
   },
   "components": {
     "schemas": {
+      "Content-File": {
+        "type": "object",
+        "allOf": [
+          {
+            "$ref": "#/components/schemas/Content"
+          },
+          {
+            "type": "object",
+            "required": [
+              "fileUrl",
+              "fileMimeType"
+            ],
+            "properties": {
+              "fileUrl": {
+                "type": "string"
+              },
+              "fileMimeType": {
+                "type": "string"
+              },
+              "fileCaption": {
+                "type": "string"
+              }
+            }
+          }
+        ]
+      },
       "Content-QuickReply": {
         "type": "object",
-        "required": [
-          "required",
-          "payload"
-        ],
+        "allOf": [
+          {
+            "$ref": "#/components/schemas/Content-Text"
+          },
+          {
+            "type": "object",
+            "required": [
+              "buttons"
+            ],
+            "properties": {
+              "buttons": {
+                "type": "array",
+                "$ref": "#/components/schemas/Partials-Button"
+              }
+            }
+          }
+        ]
+      },
+      "Content-Text": {
+        "type": "object",
+        "allOf": [
+          {
+            "$ref": "#/components/schemas/Content"
+          },
+          {
+            "type": "object",
+            "properties": {
+              "text": {
+                "title": "Text to be sent",
+                "type": "string"
+              }
+            },
+            "required": [
+              "text"
+            ]
+          }
+        ]
+      },
+      "Content": {
+        "type": "object",
         "properties": {
           "type": {
             "title": "Content Type",
             "type": "string"
+          }
+        },
+        "required": [
+          "type"
+        ]
+      },
+      "Partials-Button": {
+        "type": "object",
+        "properties": {
+          "type": {
+            "title": "Button type",
+            "type": "string",
+            "enum": [
+              "postback"
+            ]
+          },
+          "text": {
+            "title": "Button text",
+            "type": "string"
           },
           "payload": {
-            "title": "Content Payload",
+            "title": "Postback payload",
+            "type": "string"
+          }
+        }
+      },
+      "Content-WhatsApp-HSM": {
+        "type": "object",
+        "allOf": [
+          {
+            "$ref": "#/components/schemas/Content"
+          },
+          {
             "type": "object",
+            "required": [
+              "template",
+              "params"
+            ],
             "properties": {
-              "json": {
+              "template": {
+                "title": "The template data",
+                "description": "Selection of existent HSM template",
                 "type": "object",
+                "required": [
+                  "namespace",
+                  "name"
+                ],
                 "properties": {
-                  "text": {
-                    "title": "Message text",
-                    "description": "This is a text to be showed before quick-reply buttons",
+                  "namespace": {
+                    "description": "The namespace that will be used",
                     "type": "string"
                   },
-                  "buttons": {
+                  "name": {
+                    "description": "The name of template to use within the namespace",
+                    "type": "string"
+                  },
+                  "locale": {
+                    "description": "Language locale of template. Default is pt_BR",
+                    "type": "string"
+                  }
+                }
+              },
+              "params": {
+                "title": "Template params",
+                "description": "Parameters that will be dynamically incorporated into the message",
+                "type": "object",
+                "required": [
+                  "data",
+                  "order"
+                ],
+                "properties": {
+                  "data": {
+                    "description": "Object containing `name-value` parameters",
+                    "type": "object"
+                  },
+                  "order": {
+                    "description": "Array with parameters name in the same order expected by the desired template",
                     "type": "array",
-                    "$ref": "#/components/schemas/Partials-Button"
+                    "items": {
+                      "type": "string"
+                    }
                   }
                 }
               }
             }
           }
-        },
-        "example": {
-          "type": "application/vnd.zenvia.v1.quickreply+json",
-          "payload": null
-        }
+        ]
       },
-      "Content-Text": {
-        "type": "object",
-        "required": [
-          "required",
-          "payload"
-        ],
-        "properties": {
-          "type": {
-            "title": "Content Type",
-            "type": "string"
-          },
-          "payload": {
-            "title": "Content Payload",
-            "type": "object",
-            "properties": {
-              "text": {
-                "type": "string"
-              }
-            }
-          }
-        },
-        "example": {
-          "type": "text/plain",
-          "payload": {
-            "text": "Some Text"
-          }
-        }
-      },
-      "Content": {
+      "WhatsApp-Sent-Message-Content": {
         "oneOf": [
           {
             "$ref": "#/components/schemas/Content-Text"
           },
           {
-            "$ref": "#/components/schemas/Content-QuickReply"
+            "$ref": "#/components/schemas/Content-File"
+          },
+          {
+            "$ref": "#/components/schemas/Content-WhatsApp-HSM"
           }
         ],
         "discriminator": {
           "propertyName": "type",
           "mapping": {
-            "text/plain": "#/components/schemas/Content-Text",
-            "application/vnd.zenvia.v1.quickreply+json": "#/components/schemas/Content-QuickReply"
+            "text": "#/components/schemas/Content-Text",
+            "file": "#/components/schemas/Content-File",
+            "hsm": "#/components/schemas/Content-WhatsApp-HSM"
           }
         }
       },
       "Message": {
+        "title": "Message Object",
+        "description": "This is a Message object model.\n",
         "type": "object",
         "required": [
           "messageId",
@@ -308,36 +409,29 @@
             "type": "array",
             "description": "A list of content to be sent\n",
             "items": {
-              "$ref": "#/components/schemas/Content"
+              "type": "object"
             }
           }
-        },
-        "example": {
-          "messageId": "fca3f11c-7771-11e9-8897-efb56267dc4b",
-          "from": "991d2006-7770-11e9-8018-ef0cd0bfcf86",
-          "to": 5511999999999,
-          "contents": []
         }
       },
-      "Partials-Button": {
-        "type": "object",
-        "properties": {
-          "type": {
-            "title": "Button type",
-            "type": "string",
-            "enum": [
-              "postback"
-            ]
+      "WhatsApp-Sent-Message": {
+        "allOf": [
+          {
+            "$ref": "#/components/schemas/Message"
           },
-          "text": {
-            "title": "Button text",
-            "type": "string"
-          },
-          "payload": {
-            "title": "Postback payload",
-            "type": "string"
+          {
+            "properties": {
+              "contents": {
+                "title": "Message Contents",
+                "type": "array",
+                "description": "A list of content to be sent\n",
+                "items": {
+                  "$ref": "#/components/schemas/WhatsApp-Sent-Message-Content"
+                }
+              }
+            }
           }
-        }
+        ]
       }
     },
     "securitySchemes": {
