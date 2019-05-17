@@ -7,11 +7,11 @@ post:
     content:
       application/json:
         schema:
-          $ref: "#/components/schemas/Message"
-        example:
-          from: 991d2006-7770-11e9-8018-ef0cd0bfcf86
-          to: +5511999999999
-          contents: []
+          $ref: "#/components/schemas/WhatsApp-Sent-Message"
   responses:
     200:
-      description: Whatsapp message model
+      description: Created message
+      content:
+        application/json:
+          schema:
+            $ref: "#/components/schemas/WhatsApp-Sent-Message"

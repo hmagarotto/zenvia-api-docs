@@ -1,0 +1,10 @@
+type: object
+allOf:
+  - $ref: "#/components/schemas/Content-Text"
+  - type: object
+    required:
+      - buttons
+    properties:
+      buttons:
+        type: array
+        $ref: "#/components/schemas/Partials-Button"

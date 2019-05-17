@@ -1,0 +1,7 @@
+type: object
+properties:
+  type:
+    title: Content Type
+    type: string
+required:
+  - type

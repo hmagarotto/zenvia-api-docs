@@ -1,0 +1,41 @@
+type: object
+allOf:
+  - $ref: "#/components/schemas/Content"
+  - type: object
+    required:
+      - template
+      - params
+    properties:
+      template:
+        title: The template data
+        description: Selection of existent HSM template
+        type: object
+        required:
+          - namespace
+          - name
+        properties:
+          namespace:
+            description: The namespace that will be used
+            type: string
+          name:
+            description: The name of template to use within the namespace
+            type: string
+          locale:
+            description: Language locale of template. Default is pt_BR
+            type: string
+      params:
+        title: Template params
+        description: Parameters that will be dynamically incorporated into the message
+        type: object
+        required:
+          - data
+          - order
+        properties:
+          data:
+            description: Object containing `name-value` parameters
+            type: object
+          order:
+            description: Array with parameters name in the same order expected by the desired template
+            type: array
+            items:
+              type: string

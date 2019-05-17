@@ -1,3 +1,6 @@
+title: Message Object
+description: >
+  This is a Message object model.
 type: object
 required:
   - messageId
@@ -29,9 +32,4 @@ properties:
     description: >
       A list of content to be sent
     items:
-      $ref: "#/components/schemas/Content"
-example:
-  messageId: fca3f11c-7771-11e9-8897-efb56267dc4b
-  from: 991d2006-7770-11e9-8018-ef0cd0bfcf86
-  to: +5511999999999
-  contents: []
+      type: object

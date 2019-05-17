@@ -1,0 +1,10 @@
+type: object
+allOf:
+  - $ref: "#/components/schemas/Content"
+  - type: object
+    properties:
+      text:
+        title: Text to be sent
+        type: string
+    required:
+      - text

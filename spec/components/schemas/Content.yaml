@@ -1,8 +1,0 @@
-oneOf:
-  - $ref: "#/components/schemas/Content-Text"
-  - $ref: "#/components/schemas/Content-QuickReply"
-discriminator:
-  propertyName: type
-  mapping:
-    text/plain: "#/components/schemas/Content-Text"
-    application/vnd.zenvia.v1.quickreply+json: "#/components/schemas/Content-QuickReply"

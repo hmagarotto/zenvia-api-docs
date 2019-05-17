@@ -1,0 +1,14 @@
+type: object
+allOf:
+  - $ref: "#/components/schemas/Content"
+  - type: object
+    required:
+      - fileUrl
+      - fileMimeType
+    properties:
+      fileUrl:
+        type: string
+      fileMimeType:
+        type: string
+      fileCaption:
+        type: string

@@ -1,0 +1,10 @@
+oneOf:
+  - $ref: "#/components/schemas/Content-Text"
+  - $ref: "#/components/schemas/Content-File"
+  - $ref: "#/components/schemas/Content-WhatsApp-HSM"
+discriminator:
+  propertyName: type
+  mapping:
+    text: "#/components/schemas/Content-Text"
+    file: "#/components/schemas/Content-File"
+    hsm: "#/components/schemas/Content-WhatsApp-HSM"
